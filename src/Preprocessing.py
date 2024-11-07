@@ -16,11 +16,8 @@ class Preprocessing():
         # Tokenize
         self.tokenized_messages = self.tokenize(self.lower_cased_messages)
 
-        # Clean text from punctuation marks
-        self.messages_no_punctuation = self.remove_punctuation_marks_and_blanks(self.tokenized_messages)
-
         #Deal with joined words that are not supposed to be joined
-        self.messages_no_punctuation_no_joined_words = self.split_joined_words(self.messages_no_punctuation)
+        self.messages_no_punctuation_no_joined_words = self.split_joined_words(self.tokenized_messages)
 
         # Clean text from stopwords
         self.messages_no_stopwords_no_punctuation = self.remove_stopwords(self.messages_no_punctuation_no_joined_words, stopwords_file, encoding)
@@ -65,33 +62,6 @@ class Preprocessing():
             tokenized_messages.append(nltk.word_tokenize(message))
 
         return(tokenized_messages)
-
-
-
-    def remove_punctuation_marks_and_blanks(self, raw_messages):
-
-        messages_no_punctuation = []
-
-        for sms in raw_messages:
-
-            temp_message = []
-
-            for item in sms:
-
-                cleaned_item = ""
-                for character in item:
-
-                    if (character.isalpha()):
-
-                        cleaned_item += character
-
-                if cleaned_item != "":
-
-                    temp_message.append(cleaned_item)
-
-            messages_no_punctuation.append(temp_message)
-
-        return messages_no_punctuation
 
 
 
@@ -156,7 +126,6 @@ class Preprocessing():
             lemmatized_messages.append([token.lemma_ for token in doc])
 
         return lemmatized_messages
-
 
 
 

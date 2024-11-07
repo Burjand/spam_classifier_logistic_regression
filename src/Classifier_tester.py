@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-class Classifier_tester():
+class Classifier_applier():
 
     def __init__(self, vocabulary, test_set, classifier):
 
@@ -40,9 +40,9 @@ class Classifier_tester():
         vocabulary_size = len(self.vocabulary)
         test_set_cardinality = len(self.test_set)
         
-        shape = ((vocabulary_size, test_set_cardinality))
+        shape = (test_set_cardinality, vocabulary_size)
 
-        X_test_set = pd.DataFrame(np.zeros(shape), columns=[f"Message {i}" for i in range(test_set_cardinality)], index=self.vocabulary)
+        X_test_set = pd.DataFrame(np.zeros(shape), columns=self.vocabulary, index=[f"Message {i}" for i in range(test_set_cardinality)])
 
         for word in self.vocabulary:
 
@@ -50,7 +50,7 @@ class Classifier_tester():
 
                 if word in self.test_set[i]:
 
-                    X_test_set.at[word, f"Message {i}"] += 1
+                    X_test_set.at[f"Message {i}", word] += 1
 
         return X_test_set.to_numpy()
     
@@ -70,6 +70,6 @@ class Classifier_tester():
 
     def classify_message(self, message_features):
 
-        probability = self.classifier.predict(message_features, self.classifier.weights, self.classifier.bias)
+        probability = self.classifier.predict(message_features)
 
         return 1 if probability >= 0.5 else 0  # 1 spam, 0 ham

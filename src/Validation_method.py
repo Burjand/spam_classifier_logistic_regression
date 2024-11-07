@@ -49,7 +49,7 @@ class Validation_method():
                     messages_by_class_shuffled[label].append(messages_by_class[label][index]) 
 
 
-        # Create training and testing subsets
+        # Create training and test subsets
         for label in list(messages_by_class_shuffled.keys()):
 
             amount_of_patterns = len(messages_by_class_shuffled[label])
